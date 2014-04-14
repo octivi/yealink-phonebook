@@ -3,6 +3,8 @@ Octivi - Yealink PhoneBook Manager
 
 Simple PHP application to manage your Yealink Remote phone book.
 
+Check out the [post about the release](http://labs.octivi.com/yealink-phone-book-manager-released/) on our blog!
+
 Installation
 ---------------------------------------------
 
