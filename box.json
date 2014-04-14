@@ -1,0 +1,15 @@
+{
+    "main": "web/index.php",
+    "output": "build/yealink-phonebook.phar",
+    "web": true,
+    "files": ["index.php"],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "finder": [
+        {
+            "exclude": ["Tests", "tests", "*.MD", "*.md", "properties.json", "*.dist"],
+            "in": ["app", "vendor", "src", "web"]
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+<script>
+    /*
+     * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+
+
+    var sendDataWithPost = function () {
+        $('form[name="phoneBook"]').unbind('submit');
+        $('form[name="phoneBook"]').submit();
+    }
+
+    var initScriptForTables = function () {
+        $(document).ready(function () {
+            oTable = $('#phones_table').dataTable({
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+
+                    if ($(nRow).attr('id') === undefined) {
+                        $(nRow).attr('id', arrayLength);
+                        $(nRow).children('td:last').addClass('with_plus');
+                    }
+
+                }
+            });
+        });
+    }
+
+    $('#mainTabs a').click(function (e) {
+        if ($(this).parent('li').hasClass('active')) {
+            $($(this).attr('href')).hide();
+        }
+        else {
+            e.preventDefault();
+            $(this).tab('show');
+        }
+    })
+
+    var addTableRecord = function (valuesArray) {
+        var prepareArray = new Array(),
+            valuesArrayLength = valuesArray.length;
+
+        prepareArray[0] = valuesArray[0];
+        prepareArray[1] = '';
+
+        for (var i = 1; i < valuesArrayLength; i++) {
+            prepareArray[1] += "<span class='one-of-numbers'>" + valuesArray[i] + "</span>";
+        }
+
+        prepareArray.push(deleteButtonHtml());
+        $('#phones_table').dataTable().fnAddData(prepareArray);
+
+        deleteEmptyFormField();
+    }
+
+    function deleteButtonHtml() {
+        return new String("<a onclick='deleteWholePosition(this)' class='btn'><span class='glyphicon glyphicon-trash'> </span> Delete  </a>");
+    }
+
+
+</script>

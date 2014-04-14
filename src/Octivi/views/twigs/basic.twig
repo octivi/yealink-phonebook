@@ -1,0 +1,62 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Yealink PhoneBook Manager</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var hook = false;
+        window.onbeforeunload = function () {
+            if (hook) {
+                return "Did you save your changes?"
+            }
+        }
+        function sethook() {
+            hook = true;
+        }
+        function unhook() {
+            hook = false;
+        }
+    </script>
+    <style type="text/css">
+        {% include "includes/css/template.css.twig" %}
+        {% include "dataTables/css/dataTables.bootstrap.css.twig" %}
+    </style>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    {% block css %}{% endblock %}
+</head>
+<body style>
+
+<div id="wrap">
+    {% block content %} {% endblock %}
+</div>
+
+<div id="footer">
+    <div class="container" style="padding-top:15px">
+
+        <p class="pull-left">©
+            <a href="http://octivi.com">Octivi.com</a> &nbsp; - &nbsp;
+            <a href="mailto:octivi@octivi.com">Contact us!</a>
+        </p>
+    </div>
+
+</div>
+
+
+{% include "dataTables/js/jquery.dataTables.bootstrap.js.twig" %}
+{% include "dataTables/js/jquery.dataTables.comparators.js.twig" %}
+{% include "dataTables/js/jquery.dataTables.custom.js.twig" %}
+
+{% block js %}{% endblock %}
+
+</body>
+
+</html>

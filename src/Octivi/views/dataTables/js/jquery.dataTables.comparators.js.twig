@@ -1,0 +1,59 @@
+<script>
+jQuery.fn.dataTableExt.oSort['eu-date-asc'] = function(a, b) {
+var x = stringToDate(a);
+var y = stringToDate(b);
+
+return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+}
+
+jQuery.fn.dataTableExt.oSort['eu-date-desc'] = function(a, b) {
+var x = stringToDate(a);
+var y = stringToDate(b);
+
+return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+}
+
+jQuery.fn.dataTableExt.oSort['num-html-asc']  = function(a,b) {
+var x = a.replace( /<.*?>/g, "" );
+var y = b.replace( /<.*?>/g, "" );
+x = localizedToFloat( x );
+y = localizedToFloat( y );
+return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['num-html-desc'] = function(a,b) {
+var x = a.replace( /<.*?>/g, "" );
+var y = b.replace( /<.*?>/g, "" );
+x = localizedToFloat( x );
+y = localizedToFloat( y );
+return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['currency-pln-asc'] = function(a,b) {
+var x = a.replace( /[^0-9\.]+/g,"");
+var y = b.replace( /[^0-9\.]+/g,"");
+x = localizedToFloat( x );
+y = localizedToFloat( y );
+return ((x < y) ?  -1 : ((x > y) ? 1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['currency-pln-desc'] = function(a,b) {
+var x = a.replace( /[^0-9\.]+/g,"");
+var y = b.replace( /[^0-9\.]+/g,"");
+x = localizedToFloat( x );
+y = localizedToFloat( y );
+return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['string-asc'] = function(a,b) {
+    var x = a.toLowerCase();
+    var y = b.toLowerCase();
+    return x.localeCompare(y);
+};
+
+jQuery.fn.dataTableExt.oSort['string-desc'] = function(a,b) {
+    var x = a.toLowerCase();
+    var y = b.toLowerCase();
+    return y.localeCompare(x);
+};
+</script>

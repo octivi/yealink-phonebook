@@ -1,0 +1,43 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+{% extends "twigs/basic.twig" %}
+
+{% block content %}
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand">Yealink PhoneBook Manager</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" style=" margin-top:20px">
+
+            <div class="col-md-5" style="min-height: 185px">
+                {{ render(url('source_new')) }}
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-5" style="padding-right:0px">
+                {{ render(url('source_upload')) }}
+            </div>
+        </div>
+        <div class="row" >
+            <div class="page-header">
+                <p class="text-center" style="font-size:200%">Found phone books:</p>
+            </div>
+            <div class="col-xs-2 col-md-2"></div>
+            <div class=" col-xs-12 col-md-8 " id="filesListing" style="margin-top:10px">
+                {{ render(url('source_list')) }}
+            </div>
+            <div class="col-xs-2 col-md-2"></div>
+        </div>
+
+
+
+    </div>
+{% endblock %}

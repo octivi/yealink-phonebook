@@ -1,0 +1,49 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+<table id="phones_table" class="dataTables table table-striped table-hover table-bordered">
+
+    <thead>
+    <tr>
+        <th> Name</th>
+        <th> Phone Numbers</th>
+        <th> Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {% if phone_book %}
+        {% if phone_book.phoneRecords %}
+
+            {% for phoneRecord in phone_book.phoneRecords if phoneRecord.vars.name != 0 %}
+                <tr id="{{ phoneRecord.vars.name }}">
+                    <td>
+
+                        {{ phoneRecord.recordName.vars.value | raw }}
+                    </td>
+                    <td>
+                        {% for singleNumber in phoneRecord.phoneNumbers %}
+                            <span class="one-of-numbers">{{ singleNumber.phoneNumber.vars.value }}</span>
+                        {% endfor %}
+                    </td>
+
+                    </td>
+
+                    <td class="with_plus">
+                        <a onclick="deleteWholePosition(this)" class="btn"><span
+                                class="glyphicon glyphicon-trash"></span> Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    </tbody>
+
+</table>
+

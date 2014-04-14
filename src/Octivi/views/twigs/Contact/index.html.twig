@@ -1,0 +1,85 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+{% extends "twigs/basic.twig" %}
+
+{% block content %}
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand">Yealink PhoneBook Manager</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                {{ render(url('contact_url', {'name' : name})) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-bottom:40px">
+        <button type="button" class="btn btn-danger primaryButtons" data-dismiss="modal" onclick="sendDataWithPost()">
+            Create Backup
+        </button>
+        <button type='button' class="btn btn-primary primaryButtons" data-dismiss="modal" onclick="addNewPhonePosition()">
+            Add New Contact
+        </button>
+
+        <div style="margin-top:50px">
+            <div class="tab-pane fade in active " id="phone">
+                {{ render(url('contact_list', {'name':name} )) }}
+            </div>
+            <div class="tab-pane fade" id="url">
+                {# Show all Data from URL-s block #}
+            </div>
+        </div>
+        {{ render(url('contact_edit', {'name' : name})) }}
+    </div>
+
+    <div class='hidden-form' style="display:none">
+        {{ form_start(phone_book) }}
+        {% for phoneNumbers in phone_book.phoneRecords %}
+
+
+            {{ form_widget(phoneNumbers) }}
+
+        {% endfor %}
+        {{ form_end(phone_book) }}
+
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    {% include "includes/js/index_table.js.twig" %}
+    {% include "includes/js/modify.js.twig" %}
+    <script>
+        $(document).ready(function () {
+            //Initialization for DataTables script
+            initScriptForTables();
+            //dataEditor() formular
+
+            dataEditor();
+
+            $('#plus').click(function () {
+                addPhoneNumberTextField(1, "");
+            });
+
+            $('#editorModal').keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $('#saveButton').click();
+                } else if (event.keyCode === 27) {
+                    $('#closeButton').click();
+                }
+            });
+
+            $('#urlRemote').click(function () {
+                $(this).select();
+            });
+        });
+    </script>
+{% endblock %}
+

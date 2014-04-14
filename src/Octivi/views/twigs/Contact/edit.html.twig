@@ -1,0 +1,53 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ #}
+<div class="modal fade" id="editorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit :</h4>
+            </div>
+            <div class="modal-body">
+                <div id="form-phones" class="body-form">
+                    <form role="form" id="phone-form" autocomplete="off">
+                        <label for="inputName">Name:</label>
+                        <input type="text" name="Name" id="inputName" class="form-control"><br>
+
+                        <label for="inputPhone">Phone numbers:</label>
+
+                        <div id="oneNumberComposition0" class="NumberCompositionDiv input-group">
+                            <input type="text" id="inputPhone0" name="Phone" value="" class="form-control"
+                                   onkeypress="return isNumberValidator(event)"/>
+                            <a class="input-group-addon btn btn-default" onclick="deleteFormsField(this)"><i
+                                    class="glyphicon glyphicon-minus"></i></a>
+                        </div>
+                    </form>
+                    <a id="plus" class="btn btn-default">Add additional phone number...</a>
+                </div>
+                <div id="ulrs-form" class="body-form">
+                    <form autocomplete="off">
+                        <label for="inputName2">Name:</label>
+                        <input type="text" name="name" id="inputName2" class="form-control"><br>
+                        <label for="inputURL">URL Adress: </label>
+                        <input type="text" name="url" id="inputURL" class="form-control"> <br>
+                        <label for="inputPosition">Position:</label>
+                        <input type="text" name="position" id="inputPosition" class="form-control">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id='closeButton' class="btn btn-default" data-dismiss="modal"
+                        onclick="deleteEmptyFormField()"> Close
+                </button>
+                <button type="button" id='saveButton' class="btn btn-primary" data-dismiss="modal"
+                        onclick="saveDataChanges(this)"> Save
+                    changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

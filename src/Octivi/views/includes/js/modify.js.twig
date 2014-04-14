@@ -1,0 +1,266 @@
+<script>
+/*
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+recordToChange = 0;
+newRecordFlag = true;
+arrayLength = {{ phone_book.phoneRecords.vars.value|length }};
+
+var clickAction = function () {
+    newRecordFlag = false;
+    recordToChange = $(this).parent().attr('id');
+
+    var i = 0,
+        valuesArray = new Array();
+
+    //access for Name
+    valuesArray[0] = $("#phoneBook_phoneRecords_" + recordToChange + "_recordName").val();
+
+    //access for phone Numbers.
+    $("#phoneBook_phoneRecords_" + recordToChange + "_phoneNumbers").find('input').each(function (i) {
+        valuesArray[i + 1] = $(this).val();
+    });
+
+    valuesArray[0] = $.trim(valuesArray[0]);
+
+    createModalForPhoneRecord(valuesArray);
+}
+
+var createModalForPhoneRecord = function (valuesArray) {
+    var arrayNumbersLength;
+    $('.modal-title').text('Edit ' + valuesArray[0]);
+
+    $('#editorModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+
+    $("#inputName").val(valuesArray[0]);
+    $("#inputPhone0").val(valuesArray[1]);
+
+    arrayNumbersLength = valuesArray.length;
+    for (var i = 2; i < arrayNumbersLength; i++) {
+        addPhoneNumberTextField(i - 1, valuesArray[i]);
+    }
+
+    $("#inputPhone").val(valuesArray[i]);
+
+    $("#ulrs-form").hide();
+    $("#form-phones").show();
+    
+    $('#editorModal').on('shown.bs.modal', function () {
+        $('#form-phones #inputName').focus();
+    });
+}
+
+var isNumberValidator = function (evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 43) {
+        return false;
+    }
+    return true;
+}
+
+var dataEditor = function () {
+    $("table tbody tr td:not(:last-child)").unbind('click');
+    $("table tbody tr td:not(:last-child)").click(clickAction);
+}
+
+var saveDataChanges = function (ev) {
+    var dataToSave = new Array(),
+        newName = $('#inputName').val();
+    newName = $.trim(newName);
+
+    if (newName === '') {
+
+        $('#phoneBook_phoneRecords_' + recordToChange).remove();
+
+        aPos = oTable.fnGetPosition($('#' + recordToChange).children('td')[0]);
+        oTable.fnDeleteRow(aPos[0]);
+    }
+
+    if ($('#form-phones').is(":visible")) {
+        var dataToSaveLength,
+            phonesString = "";
+        dataToSave[0] = $('#inputName').val();
+        $('#phone-form').children('div').each(function () {
+            if ($(this).children('input').val() != "") {
+                dataToSave.push($(this).children('input').val());
+            }
+        });
+        dataToSaveLength = dataToSave.length;
+
+        //All changed data are in this array, now :
+
+        if (newRecordFlag) {
+            //This is new row in dataTable and new input for Form.
+            addTableRecord(dataToSave);
+            addFormRecord(dataToSave);
+        } else {
+            //This has to change old values.
+            changeTableRecord(dataToSave);
+            changeFormRecord(dataToSave);
+        }
+    }
+}
+
+var addFormRecord = function (valueArray) {
+    var inputPhone = new Array(),
+        recordTemplate = $("#phoneBook_phoneRecords_0").clone(),
+        dataToSaveLength = valueArray.length,
+        numberTemplate = $('#phoneBook_phoneRecords_0').find('#phoneBook_phoneRecords_0_phoneNumbers').children('div:first').clone(),
+        prototypeToAdd = "";
+
+    //Name
+    recordTemplate.find('#phoneBook_phoneRecords_0_recordName').attr('name', "phoneBook[phoneRecords][" + arrayLength + "][recordName]");
+    recordTemplate.find('#phoneBook_phoneRecords_0_recordName').attr('value', valueArray[0]);
+    recordTemplate.find('#phoneBook_phoneRecords_0_recordName').attr('id', "phoneBook_phoneRecords_" + arrayLength + "_recordName");
+
+    recordTemplate.find('#phoneBook_phoneRecords_0_phoneNumbers').children('div').each(function () {
+        $(this).remove();
+    })
+    //Phone
+    for (var i = 0; i < dataToSaveLength - 1; i++) {
+        numberTemplate.children('div').attr('id', 'phoneBook_phoneRecords_' + arrayLength + '_phoneNumbers_' + i);
+        numberTemplate.find('input').attr('id', 'phoneBook_phoneRecords_' + arrayLength + '_phoneNumbers_' + i + '_phoneNumber');
+        numberTemplate.find('input').attr('name', 'phoneBook[phoneRecords][' + arrayLength + '][phoneNumbers][' + i + '][phoneNumber]');
+        numberTemplate.find('input').attr('value', valueArray[i + 1]);
+        prototypeToAdd = numberTemplate.clone();
+        recordTemplate.find('#phoneBook_phoneRecords_0_phoneNumbers').append(prototypeToAdd);
+    }
+
+    recordTemplate.find('#phoneBook_phoneRecords_0_phoneNumbers').attr('id', "phoneBook_phoneRecords_" + arrayLength + "_phoneNumbers");
+    recordTemplate.attr('id', "phoneBook_phoneRecords_" + arrayLength);
+
+    $('form[name="phoneBook"]').append(recordTemplate);
+
+    dataEditor();
+    arrayLength += 1;
+    ajaxSubmitForm();
+}
+
+var changeTableRecord = function (dataToSave) {
+    var trToChange = $('#' + recordToChange),
+        phonesString = "",
+        dataToSaveLength = dataToSave.length;
+
+    trToChange.children(':first').html(dataToSave[0]);
+
+    for (var i = 1; i < dataToSaveLength; i++) {
+        phonesString += "<span class = 'one-of-numbers'>" + dataToSave[i] + "</span>";
+    }
+    $(trToChange).children(':nth-child(2)').html(phonesString);
+
+    deleteEmptyFormField();
+}
+
+var changeFormRecord = function (dataToSave) {
+    var dataToSaveLength = dataToSave.length,
+        numbersContainer = $("#phoneBook_phoneRecords_" + recordToChange + "_phoneNumbers"),
+        prototypeToClone = numbersContainer.children('div:first').clone(),
+        prototypeToAdd = "";
+
+    $("#phoneBook_phoneRecords_" + recordToChange + "_recordName").val(dataToSave[0]);
+
+    numbersContainer.children('div').each(function () {
+        $(this).remove();
+    });
+
+    for (var i = 0; i < dataToSaveLength - 1; i++) {
+        prototypeToClone.children('div').attr('id', 'phoneBook_phoneRecords_' + recordToChange + '_phoneNumbers_' + i);
+        prototypeToClone.find('input').attr('id', 'phoneBook_phoneRecords_' + recordToChange + '_phoneNumbers_' + i + '_phoneNumber');
+        prototypeToClone.find('input').attr('name', 'phoneBook[phoneRecords][' + recordToChange + '][phoneNumbers][' + i + '][phoneNumber]');
+        prototypeToClone.find('input').attr('value', dataToSave[i + 1]);
+        prototypeToAdd = prototypeToClone.clone();
+        numbersContainer.append(prototypeToAdd);
+    }
+    ajaxSubmitForm();
+}
+
+var ajaxSubmitFormHandler = function () {
+    $('form[name="phoneBook"]').submit(function (e) {
+        var url = '{{ url('contact_save', {name: name}) }}';
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $(this).serialize(),
+            success: function (data) {
+            }
+        });
+        e.preventDefault();
+        return false;
+    });
+}
+
+var ajaxSubmitForm = function () {
+    $('form[name="phoneBook"]').submit();
+}
+
+var deleteEmptyFormField = function () {
+    $('.NumberCompositionDiv:not(:first)').each(function () {
+        $(this).remove();
+    })
+}
+
+var deleteFormsField = function (what) {
+    if ($('.NumberCompositionDiv').parent().children('.NumberCompositionDiv').length > 1) {
+        $(what).parent().remove();
+        $('.NumberCompositionDiv').find('input').last().focus();
+    } else {
+        alert('At least one number has to be assigned to user.');
+    }
+}
+
+var addNewPhonePosition = function () {
+    newRecordFlag = true;
+
+    $('#editorModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+    $('.modal-title').text('New Contact');
+    $('#inputName').val("");
+    $('.NumberCompositionDiv input:first').val("");
+    $("#form-phones").show();
+    
+    $('#editorModal').on('shown.bs.modal', function () {
+        $('#form-phones #inputName').focus();
+    });
+}
+
+var deleteWholePosition = function (ev) {
+
+    var decision = confirm('Are you sure?'),
+        trToDelete = $(ev).parent()[0],
+        aPos = oTable.fnGetPosition(trToDelete),
+        idDeleted = $(ev).parent().parent().attr('id');
+
+    if (decision) {
+        $('#phoneBook_phoneRecords_' + idDeleted).remove();
+        oTable.fnDeleteRow(aPos[0]);
+        ajaxSubmitForm();
+    }
+}
+
+var addPhoneNumberTextField = function (nextId, value) {
+    var copiedForm = $('.NumberCompositionDiv:first').clone();
+    copiedForm.children('input').val(value);
+    copiedForm.children('input').attr('id', 'inputPhone' + nextId);
+    copiedForm.attr('id', 'oneNumberComposition' + nextId);
+    copiedForm.attr("class", "NumberCompositionDiv input-group");
+    copiedForm.appendTo("#phone-form");
+
+    copiedForm.find('input').focus();
+}
+
+
+ajaxSubmitFormHandler();
+
+</script>
+

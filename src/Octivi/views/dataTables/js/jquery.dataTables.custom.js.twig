@@ -1,0 +1,14 @@
+<script>
+/* Set the defaults for DataTables initialisation */
+$.extend( true, $.fn.dataTable.defaults, {
+"oLanguage": {
+},
+"bStateSave": true,
+"fnPreDrawCallback": function(oSettings, json) {
+
+$('.dataTables_filter input').addClass('form-control input-sm');
+$('.dataTables_filter input').css('width', '200px');
+$('.dataTables_length select').addClass('form-control input-sm');
+},
+});
+</script>

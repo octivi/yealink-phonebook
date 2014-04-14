@@ -1,0 +1,33 @@
+{
+    "name": "octivi/yealink-phonebook",
+    "type": "application",
+    "description": "Yealink PhoneBook Manager",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Antoni Orfin",
+            "email": "aorfin@imagin.pl"
+        },
+        {
+            "name": "Piotr Cytera",
+            "email": "pcytera@imagin.pl"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "silex/silex": "~1.1",
+        "symfony/form": "~2.0",
+        "symfony/config": "~2.0",
+        "symfony/locale": "~2.2",
+        "symfony/twig-bridge": "~2.2",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/validator": "~2.3"
+    },
+    "require-dev": {
+        "kherge/box": "~2.0"
+    }
+}

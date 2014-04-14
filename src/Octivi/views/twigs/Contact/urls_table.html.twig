@@ -1,0 +1,41 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+{% if phone_book.SoftKeyItem is defined %}
+    <table id="urls_table" class="dataTables">
+        {# Show all Data from URL block #}
+        <thead>
+        <tr>
+            <th> Name</th>
+            <th> URL Adress</th>
+            <th> Position</th>
+            <th> Delete</th>
+        </tr>
+        </thead>
+
+        {% for urls in phone_book.SoftKeyItem %}
+            <tr>
+                <td>
+                    {{ urls.Name }}
+                </td>
+                <td>
+                    {{ urls.URL }}
+                </td>
+                <td>
+                    {% if urls.Position is defined %}
+                        {{ urls.Position }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    <a onclick="deleteWholePosition(event)"> <i class="glyphicon glyphicon-minus"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

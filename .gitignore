@@ -1,0 +1,12 @@
+vendor
+app/properties.json
+composer.lock
+box.phar
+composer.phar
+nbproject
+*~
+.project
+.settings
+.idea
+build/
+web/pb

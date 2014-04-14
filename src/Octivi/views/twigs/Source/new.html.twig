@@ -1,0 +1,26 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+<div>
+    <p class="text-center" style="font-size:150%">Create new phone book now </p>
+    {{ form_start(newFileForm, {'method': 'POST', 'action' : url('source_new'), 'role': 'form', }
+    ) }}
+
+    {{ form_errors(newFileForm) }}
+
+    <div class='input-group col-sm-9' style="float:left">
+        <label for = "form_fileName" class="control-label">New phone book name</label>
+        <div class="input-group">
+        {{ form_widget(newFileForm.fileName, {'attr': {'class': 'form-control', 'placeholder': 'Name...'}})}}
+        <span class="input-group-addon">.xml</span>
+        </div>
+    </div>
+    <div class='input-group col-sm-3' style="float:left; margin-top: 25px">
+        <button type="submit" name="submit" class="btn btn-primary" style="float:right">Create</button>
+    </div>
+    {{ form_end(newFileForm) }}
+</div>

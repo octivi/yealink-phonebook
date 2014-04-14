@@ -1,0 +1,32 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+<div>
+    {% if fileList is not null %}
+
+        <table class="table table-hover">
+            {% for file in fileList %}
+                    <tr class="clickableRow" href = '{{ url('contact', {name: file.name}) }}'>
+                        <td>
+                            {{ file.name }}
+                        </td>
+                        <td style="text-align: right">
+                            <small>{{ file.modified }}</small>
+                        </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+
+<script>
+    $(document).ready(function($){
+       $(".clickableRow").click(function() {
+            window.document.location = $(this).attr('href');
+        });
+    });
+</script>

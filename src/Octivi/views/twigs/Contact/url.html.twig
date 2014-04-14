@@ -1,0 +1,26 @@
+{#
+ * Copyright 2014 IMAGIN Sp. z o.o. - imagin.pl
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ #}
+
+{% if remote_url is defined %}
+    <form role="form" class="navbar-form navbar-right" style="width: 600px">
+        <div class="form-group" style="width: 100%">
+
+            <div class="col-sm-12" style="padding-right: 0px" >
+                <div class="input-group">
+                    <span class = 'input-group-btn'>
+                        <a class="btn btn-default" href = "{{ url('source') }}">
+                            <span class = "glyphicon glyphicon-book"></span> Choose phonebook
+                        </a>
+                    </span>
+                    <input type="text" id="urlRemote" class="form-control" value="{{ remote_url }}" >
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+{% endif %}
