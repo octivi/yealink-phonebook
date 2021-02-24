@@ -1,4 +1,4 @@
-Octivi - Yealink PhoneBook Manager
+Octivi - Yealink PhoneBook Manager is no longer maintained
 =============================================
 
 Simple PHP application to manage your Yealink Remote phone book.
